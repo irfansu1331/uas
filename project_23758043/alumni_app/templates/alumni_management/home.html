@@ -1,0 +1,450 @@
+{% extends 'alumni_management/base.html' %}
+{% load static %}
+
+{% block title %}Beranda{% endblock %}
+
+{% block content %}
+<!-- Custom CSS for homepage -->
+<style>
+  /* Gradient colors */
+  :root {
+    --primary-color: #ff416c;
+    --secondary-color: #ff4b2b;
+    --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  }
+
+  /* Hero section styling */
+  .hero {
+    position: relative;
+    background-image: url('{% static "alumni_app/images/background.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 65, 108, 0.85), rgba(255, 75, 43, 0.85));
+    z-index: 1;
+  }
+
+  .hero-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    width: 100%;
+    max-width: 9999px;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-btn {
+    background: white;
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+  }
+
+  .hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: #f8f9fa;
+    color: var(--primary-color);
+  }
+
+  /* News ticker styling */
+  .news-ticker {
+    background: var(--gradient);
+    color: white;
+    padding: 12px 0;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ticker-content {
+    display: flex;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    padding: 0 20px;
+    font-size: 1.1rem;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Features section */
+  .features-section {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+  }
+
+  .section-title {
+    position: relative;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    transition: all 0.4s ease;
+    border-top: 5px solid transparent;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--gradient);
+    opacity: 0;
+    transition: all 0.4s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(255, 65, 108, 0.15);
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .feature-title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+  }
+
+  .feature-description {
+    color: #6c757d;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Stats section */
+  .stats-section {
+    padding: 60px 0;
+    background: white;
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+  }
+
+  .stat-label {
+    font-size: 1.1rem;
+    color: #495057;
+    font-weight: 500;
+  }
+
+  /* CTA section */
+  .cta-section {
+    padding: 100px 0;
+    background: var(--gradient);
+    text-align: center;
+    color: white;
+  }
+
+  .cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .cta-description {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 30px;
+  }
+
+  .cta-btn {
+    background: white;
+    color: var(--primary-color);
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Animations */
+  .animate-text {
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .animate-delay-1 {
+    animation-delay: 0.2s;
+  }
+
+  .animate-delay-2 {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .hero {
+      height: 60vh;
+      min-height: 400px;
+    }
+    
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+    }
+    
+    .features-section {
+      padding: 50px 0;
+    }
+    
+    .feature-card {
+      margin-bottom: 30px;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-overlay">
+    <h1 class="animate-text">Selamat Datang di Alumni Management</h1>
+    <p class="lead animate-text animate-delay-1">Alumni Prodi Teknologi Rekayasa Internet - Politeknik Negeri Lampung</p>
+    <a href="{% url 'alumni_list' %}" class="btn hero-btn animate-text animate-delay-2">
+      <i class="fas fa-users me-2"></i>Lihat Daftar Alumni
+    </a>
+  </div>
+</section>
+
+<!-- News Ticker (Replacing Marquee) -->
+<div class="news-ticker">
+  <div class="ticker-content">
+    <div class="ticker-item">🔴 TRI SOLID SOLID SOLIDDDDDDDD!!!!!!!!!! 🔴</div>
+    <div class="ticker-item">📢 Bergabunglah dengan komunitas alumni kami sekarang!</div>
+    <div class="ticker-item">🎓 Alumni Politeknik Negeri Lampung - Sukses di mana saja!</div>
+    <div class="ticker-item">💼 Temukan peluang karir bersama jaringan alumni</div>
+    <div class="ticker-item">🔴 TRI SOLID SOLID SOLIDDDDDDDD!!!!!!!!!! 🔴</div>
+  </div>
+</div>
+
+<!-- Features Section -->
+<section class="features-section">
+  <div class="container">
+    <h2 class="text-center section-title" data-aos="fade-up">Mengapa Bergabung?</h2>
+    <div class="row gy-4 mt-3">
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="100">
+        <div class="feature-card">
+          <div class="feature-icon">🎓</div>
+          <h3 class="feature-title">Alumni Berkualitas</h3>
+          <p class="feature-description">Jaringan alumni yang sukses di berbagai bidang teknologi dan industri. Terhubung dengan profesional terbaik.</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="200">
+        <div class="feature-card">
+          <div class="feature-icon">💼</div>
+          <h3 class="feature-title">Peluang Karier</h3>
+          <p class="feature-description">Konektivitas tinggi dengan industri teknologi. Dapatkan akses ke lowongan kerja eksklusif untuk alumni.</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="300">
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <h3 class="feature-title">Event Alumni</h3>
+          <p class="feature-description">Reuni, seminar, dan pelatihan eksklusif. Tingkatkan keterampilan dan perluas jaringan Anda.</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="zoom-in" data-aos-delay="400">
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3 class="feature-title">Akses Informasi</h3>
+          <p class="feature-description">Berita terbaru tentang industri dan teknologi. Tetap terinformasi dengan perkembangan terkini.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="stat-number" id="alumniCounter">50+</div>
+          <div class="stat-label">Alumni Terdaftar</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="stat-number" id="companiesCounter">999+</div>
+          <div class="stat-label">Perusahaan Partner</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="stat-number" id="eventsCounter">10+</div>
+          <div class="stat-label">Event Tahunan</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="stat-number" id="successCounter">95%</div>
+          <div class="stat-label">Tingkat Kesuksesan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title">Bergabunglah Dengan Komunitas Alumni Kami</h2>
+    <p class="cta-description">Daftarkan diri Anda sekarang dan nikmati berbagai manfaat sebagai bagian dari jaringan alumni Politeknik Negeri Lampung</p>
+    
+    {% if user.is_authenticated %}
+    <a href="{% url 'alumni_create' %}" class="btn cta-btn">
+      <i class="fas fa-user-plus me-2"></i>Lengkapi Profil Alumni
+    </a>
+    {% else %}
+    <a href="{% url 'register' %}" class="btn cta-btn">
+      <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
+    </a>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Simple JavaScript for counter animation -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Counter animation
+    const counters = document.querySelectorAll('.stat-number');
+    const speed = 200;
+    
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText.replace(/\D/g, '');
+        const inc = target / speed;
+        
+        if (count < target) {
+          counter.innerText = Math.ceil(count + inc) + '+';
+          setTimeout(updateCount, 1);
+        } else {
+          counter.innerText = target + '+';
+        }
+      };
+      
+      // Set data-target attributes dynamically from the inner text
+      const initialValue = counter.innerText.replace(/\D/g, '');
+      counter.setAttribute('data-target', initialValue);
+      counter.innerText = '0+';
+      
+      // Use Intersection Observer to trigger counter when in view
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          updateCount();
+          observer.unobserve(counter);
+        }
+      }, { threshold: 0.5 });
+      
+      observer.observe(counter);
+    });
+  });
+</script>
+{% endblock %}

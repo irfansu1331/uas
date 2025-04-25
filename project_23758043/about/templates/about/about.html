@@ -1,0 +1,667 @@
+{% extends 'alumni_management/base.html' %}
+{% load static %}
+
+{% block title %}Tentang Kami{% endblock %}
+
+{% block content %}
+<!-- Custom CSS for About Page -->
+<style>
+  /* Gradient colors */
+  :root {
+    --primary-color: #ff416c;
+    --secondary-color: #ff4b2b;
+    --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  }
+
+  /* Hero section styling */
+  .about-hero {
+    position: relative;
+    background-image: url('{% static "images/about-bg.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 65, 108, 0.85), rgba(255, 75, 43, 0.85));
+    z-index: 1;
+  }
+
+  .hero-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .hero-overlay h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-overlay p {
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Animations */
+  .animate-text {
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .animate-delay-1 {
+    animation-delay: 0.2s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* About section styling */
+  .about-section {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  .section-title {
+    position: relative;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
+  }
+
+  .about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  /* Vision & Mission cards */
+  .card-glow {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    border-left: 5px solid transparent;
+  }
+
+  .card-glow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid var(--primary-color);
+  }
+
+  .card-glow h5 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5rem;
+  }
+
+  .card-glow p, .card-glow ul {
+    color: #6c757d;
+    line-height: 1.6;
+  }
+
+  .card-glow ul {
+    padding-left: 20px;
+  }
+
+  .card-glow ul li {
+    margin-bottom: 10px;
+  }
+
+  /* Team section */
+  .team-section {
+    margin-top: 80px;
+  }
+
+  .team-member {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .team-img-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border: 5px solid white;
+  }
+
+  .team-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+  }
+
+  .team-img-container:hover .team-img {
+    transform: scale(1.05);
+  }
+
+  .team-info h4 {
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .team-position {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .social-icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+  }
+
+  /* Timeline section */
+  .timeline-section {
+    margin-top: 80px;
+    position: relative;
+  }
+
+  .timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
+
+  .timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+    border-radius: 3px;
+  }
+
+  .timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+  }
+
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -13px;
+    background: white;
+    border: 4px solid var(--primary-color);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .timeline-left {
+    left: 0;
+    text-align: right;
+  }
+
+  .timeline-right {
+    left: 50%;
+    text-align: left;
+  }
+
+  .timeline-left::after {
+    right: -13px;
+  }
+
+  .timeline-right::after {
+    left: -12px;
+  }
+
+  .timeline-content {
+    padding: 20px 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .timeline-year {
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+
+  .timeline-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .timeline-text {
+    color: #6c757d;
+    line-height: 1.6;
+  }
+
+  /* Counter section */
+  .counter-section {
+    margin-top: 80px;
+    padding: 60px 0;
+    background: var(--gradient);
+    border-radius: 15px;
+    color: white;
+  }
+
+  .counter-box {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .counter-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .counter-number {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+
+  .counter-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* Partners section */
+  .partners-section {
+    margin-top: 80px;
+  }
+
+  .partners-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 40px;
+  }
+
+  .partner-logo {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .partner-logo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .partner-logo img {
+    max-width: 100%;
+    max-height: 70px;
+    filter: grayscale(100%);
+    transition: all 0.3s ease;
+  }
+
+  .partner-logo:hover img {
+    filter: grayscale(0%);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .about-hero {
+      height: 300px;
+    }
+    
+    .about-hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .about-hero p {
+      font-size: 1.2rem;
+    }
+    
+    .timeline::after {
+      left: 31px;
+    }
+    
+    .timeline-item {
+      width: 100%;
+      padding-left: 70px;
+      padding-right: 25px;
+    }
+    
+    .timeline-left, .timeline-right {
+      left: 0;
+      text-align: left;
+    }
+    
+    .timeline-left::after, .timeline-right::after {
+      left: 18px;
+      right: auto;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="about-hero">
+  <div class="hero-overlay">
+    <h1 class="animate-text">Tentang Kami</h1>
+    <p class="lead animate-text animate-delay-1">Menghubungkan Alumni & Mahasiswa untuk Masa Depan yang Lebih Baik</p>
+  </div>
+</section>
+
+<!-- About Content Section -->
+<div class="container">
+  <div class="about-section">
+    <div class="about-container">
+      <h2 class="text-center section-title" data-aos="fade-up">Visi & Misi</h2>
+      <p class="text-center mb-5" data-aos="fade-up">
+        Kami hadir untuk menciptakan komunitas alumni yang kuat, mendukung pertumbuhan karier, dan berbagi pengalaman.
+      </p>
+      
+      <div class="row">
+        <div class="col-md-6" data-aos="flip-left">
+          <div class="card-glow">
+            <h5>🎯 Visi</h5>
+            <p>Menjadi wadah alumni terbaik yang mendukung kemajuan dan inovasi dalam pengembangan karier serta memberikan kontribusi positif bagi almamater dan masyarakat luas.</p>
+          </div>
+        </div>
+        
+        <div class="col-md-6" data-aos="flip-right">
+          <div class="card-glow">
+            <h5>🚀 Misi</h5>
+            <ul>
+              <li>🔗 Menjalin koneksi alumni yang berkelanjutan dan saling mendukung</li>
+              <li>💼 Meningkatkan peluang karier melalui jaringan profesional</li>
+              <li>🎓 Memberikan mentoring dan bimbingan kepada mahasiswa dan alumni baru</li>
+              <li>📢 Berbagi wawasan industri dan pengalaman praktis</li>
+              <li>🤝 Mendukung pengembangan almamater melalui kolaborasi aktif</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Timeline Section -->
+      <div class="timeline-section" data-aos="fade-up">
+        <h2 class="text-center section-title">Perjalanan Kami</h2>
+        <p class="text-center mb-5">Sejarah perkembangan komunitas alumni kami sejak tahun awal hingga sekarang</p>
+        
+        <div class="timeline">
+          <div class="timeline-item timeline-left" data-aos="fade-right">
+            <div class="timeline-content">
+              <div class="timeline-year">2022</div>
+              <h4 class="timeline-title">Pendirian Program Studi Teknologi Rekayasa Internet</h4>
+              <p class="timeline-text"></p>
+            </div>
+          </div>
+          
+          <div class="timeline-item timeline-right" data-aos="fade-left">
+            <div class="timeline-content">
+              <div class="timeline-year">2022</div>
+              <h4 class="timeline-title">Peluncuran Website</h4>
+              <p class="timeline-text"></p>
+            </div>
+          </div>
+          
+          <div class="timeline-item timeline-left" data-aos="fade-right">
+            <div class="timeline-content">
+              <div class="timeline-year">2023</div>
+              <h4 class="timeline-title">Penerimaan Mahasiswa Baru</h4>
+              <p class="timeline-text">Menyelenggarakan penerimaan mahasiswa baru yang di ikuti oleh 60 mahasiswa</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item timeline-right" data-aos="fade-left">
+            <div class="timeline-content">
+              <div class="timeline-year">2025</div>
+              <h4 class="timeline-title">Platform Digital Baru</h4>
+              <p class="timeline-text">Meluncurkan platform alumni terintegrasi dengan fitur lengkap dan desain modern.</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item timeline-left" data-aos="fade-right">
+            <div class="timeline-content">
+              <div class="timeline-year">2028</div>
+              <h4 class="timeline-title">Konferensi Alumni </h4>
+              <p class="timeline-text">Menyelenggarakan konferensi pertama yang dihadiri oleh 50+ alumni dari Prodi Teknologi Rekayasa Internet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Counter Section -->
+      <div class="counter-section text-center" data-aos="fade-up">
+        <div class="row">
+          <div class="col-md-3 col-6">
+            <div class="counter-box">
+              <i class="fas fa-user-graduate counter-icon"></i>
+              <div class="counter-number">50+</div>
+              <div class="counter-text">Alumni</div>
+            </div>
+          </div>
+          
+          <div class="col-md-3 col-6">
+            <div class="counter-box">
+              <i class="fas fa-building counter-icon"></i>
+              <div class="counter-number">999+</div>
+              <div class="counter-text">Perusahaan Partner</div>
+            </div>
+          </div>
+          
+          <div class="col-md-3 col-6">
+            <div class="counter-box">
+              <i class="fas fa-handshake counter-icon"></i>
+              <div class="counter-number">20+</div>
+              <div class="counter-text">Event Terlaksana</div>
+            </div>
+          </div>
+          
+          <div class="col-md-3 col-6">
+            <div class="counter-box">
+              <i class="fas fa-globe-asia counter-icon"></i>
+              <div class="counter-number">10+</div>
+              <div class="counter-text">Negara</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Team Section -->
+      <div class="team-section" data-aos="fade-up">
+        <h2 class="text-center section-title">Tim Kami</h2>
+        <p class="text-center mb-5">Perkenalkan tim profesional di balik manajemen alumni</p>
+        
+        <div class="row">
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="team-member">
+              <div class="team-img-container">
+                <img src="{% static 'images/team-1.jpg' %}" alt="Team Member" class="team-img">
+              </div>
+              <div class="team-info">
+                <h4>Irfan</h4>
+                <div class="team-position">Ketua Alumni</div>
+                <div class="social-links">
+                  <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                  <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="team-member">
+              <div class="team-img-container">
+                <img src="{% static 'images/team-2.jpg' %}" alt="Team Member" class="team-img">
+              </div>
+              <div class="team-info">
+                <h4>Syah</h4>
+                <div class="team-position">Sekretaris</div>
+                <div class="social-links">
+                  <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                  <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="team-member">
+              <div class="team-img-container">
+                <img src="{% static 'images/team-3.jpg' %}" alt="Team Member" class="team-img">
+              </div>
+              <div class="team-info">
+                <h4>Utama</h4>
+                <div class="team-position">Bendahara</div>
+                <div class="social-links">
+                  <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                  <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+            <div class="team-member">
+              <div class="team-img-container">
+                <img src="{% static 'images/team-4.jpg' %}" alt="Team Member" class="team-img">
+              </div>
+              <div class="team-info">
+                <h4>TRI</h4>
+                <div class="team-position">Koordinator Event</div>
+                <div class="social-links">
+                  <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                  <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="social-icon"><i class="fas fa-envelope"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Partners Section -->
+      <div class="partners-section" data-aos="fade-up">
+        <h2 class="text-center section-title">Partner Kami</h2>
+        <p class="text-center mb-5">Perusahaan dan institusi yang berkolaborasi dengan komunitas alumni</p>
+        
+        <div class="partners-grid">
+          <div class="partner-logo" data-aos="zoom-in">
+            <img src="{% static 'images/partner.png' %}" alt="Partner Logo">
+          </div>
+          <div class="partner-logo" data-aos="zoom-in" data-aos-delay="100">
+            <img src="{% static 'images/partner-2.png' %}" alt="Partner Logo">
+          </div>
+          <div class="partner-logo" data-aos="zoom-in" data-aos-delay="200">
+            <img src="{% static 'images/partner-3.png' %}" alt="Partner Logo">
+          </div>
+          <div class="partner-logo" data-aos="zoom-in" data-aos-delay="300">
+            <img src="{% static 'images/partner-4.png' %}" alt="Partner Logo">
+          </div>
+          <div class="partner-logo" data-aos="zoom-in" data-aos-delay="400">
+            <img src="{% static 'images/partner-5.png' %}" alt="Partner Logo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript Animation Initialization -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS animation library
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrasi Akun</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+    }
+    
+    .container {
+      position: relative;
+      width: 400px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      padding: 40px;
+    }
+    
+    .header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .header h2 {
+      color: #333;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      color: #666;
+      font-size: 15px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #555;
+      font-weight: 500;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    .form-group input:focus {
+      border-color: #ff416c;
+      box-shadow: 0 0 5px rgba(255, 65, 108, 0.3);
+    }
+    
+    .errorlist {
+      color: #ff416c;
+      font-size: 12px;
+      margin-top: 5px;
+      list-style-type: none;
+      padding-left: 5px;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 75, 43, 0.4);
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(255, 75, 43, 0.5);
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .login-link a {
+      color: #ff416c;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    
+    .form-icon {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #888;
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .container {
+      animation: fadeIn 0.6s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Buat Akun Baru</h2>
+      <p>Silakan lengkapi formulir berikut</p>
+    </div>
+    
+    <form method="post">
+      {% csrf_token %}
+      
+      <!-- Display form fields with improved styling -->
+      {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <ul class="errorlist">
+            {% for error in field.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      {% endfor %}
+      
+      <button type="submit">Daftar Sekarang</button>
+    </form>
+    
+    <div class="login-link">
+      <a href="{% url 'login' %}">Sudah punya akun? Masuk di sini</a>
+    </div>
+  </div>
+</body>
+</html>

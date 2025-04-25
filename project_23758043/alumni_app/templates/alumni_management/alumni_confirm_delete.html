@@ -1,0 +1,16 @@
+{% extends 'alumni_management/base.html' %}
+
+{% block title %}Hapus Alumni{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="alert alert-warning text-center">
+        <h4>Apakah Anda yakin ingin menghapus <strong>{{ alumni.nama }}</strong>?</h4>
+    </div>
+    <form method="POST" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Hapus</button>
+        <a href="{% url 'alumni_list' %}" class="btn btn-secondary ms-2">Batal</a>
+    </form>
+</div>
+{% endblock %}

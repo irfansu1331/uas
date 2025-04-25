@@ -1,0 +1,461 @@
+{% extends 'alumni_management/base.html' %}
+{% load static %}
+
+{% block title %}Kontak Kami{% endblock %}
+
+{% block content %}
+<!-- Custom CSS for Contact Page -->
+<style>
+  /* Gradient colors */
+  :root {
+    --primary-color: #ff416c;
+    --secondary-color: #ff4b2b;
+    --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  }
+
+  /* Hero section styling */
+  .contact-hero {
+    position: relative;
+    background-image: url('{% static "images/contact-bg.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+
+  .contact-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 65, 108, 0.85), rgba(255, 75, 43, 0.85));
+    z-index: 1;
+  }
+
+  .hero-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .hero-overlay h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-overlay p {
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Animations */
+  .animate-text {
+    animation: fadeInUp 1s ease-out;
+  }
+
+  .animate-delay-1 {
+    animation-delay: 0.2s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Contact section styling */
+  .contact-section {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  .section-title {
+    position: relative;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
+  }
+
+  .contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .contact-form {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 10px;
+  }
+
+  .form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(255, 65, 108, 0.25);
+  }
+
+  .textarea-container {
+    position: relative;
+  }
+
+  .textarea-emoji {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .textarea-emoji:hover {
+    color: var(--primary-color);
+  }
+
+  .btn-glow {
+    background: var(--gradient);
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+    cursor: pointer;
+  }
+
+  .btn-glow:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 65, 108, 0.5);
+  }
+
+  /* Contact info cards */
+  .contact-info {
+    margin-top: 50px;
+  }
+
+  .info-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border-left: 5px solid transparent;
+  }
+
+  .info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid var(--primary-color);
+  }
+
+  .info-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .info-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .info-content {
+    color: #6c757d;
+    line-height: 1.6;
+  }
+
+  /* Map styling */
+  .map-container {
+    height: 350px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    margin-top: 60px;
+  }
+
+  .faq-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .accordion-item {
+    border: none;
+    margin-bottom: 15px;
+    border-radius: 10px !important;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .accordion-button {
+    padding: 15px 20px;
+    font-weight: 600;
+    color: #333;
+    background-color: white;
+  }
+
+  .accordion-button:not(.collapsed) {
+    color: var(--primary-color);
+    background-color: rgba(255, 65, 108, 0.05);
+  }
+
+  .accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 65, 108, 0.25);
+  }
+
+  .accordion-body {
+    padding: 20px;
+    color: #6c757d;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .contact-hero {
+      height: 300px;
+    }
+    
+    .contact-hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .contact-hero p {
+      font-size: 1.2rem;
+    }
+    
+    .contact-form {
+      padding: 25px;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<section class="contact-hero">
+  <div class="hero-overlay">
+    <h1 class="animate-text">Hubungi Kami</h1>
+    <p class="lead animate-text animate-delay-1">Jangan ragu untuk bertanya, kami siap membantu!</p>
+  </div>
+</section>
+
+<!-- Contact Form Section -->
+<div class="container">
+  <div class="contact-section">
+    <div class="contact-container">
+      <h2 class="text-center section-title" data-aos="fade-up">Kirim Pesan</h2>
+      
+      <div class="row">
+        <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+          <div class="contact-form">
+            <form>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <label class="form-label">Nama Lengkap</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" placeholder="Masukkan nama Anda" required>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <label class="form-label">Email</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" placeholder="example@email.com" required>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <label class="form-label">Subjek</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-tag"></i></span>
+                  <input type="text" class="form-control" placeholder="Subjek pesan Anda" required>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <label class="form-label">Pesan</label>
+                <div class="textarea-container">
+                  <textarea class="form-control" rows="6" placeholder="Tulis pesan Anda secara detail..." required></textarea>
+                  <span class="textarea-emoji">😊</span>
+                </div>
+              </div>
+              
+              <div>
+                <button type="submit" class="btn-glow">
+                  <i class="fas fa-paper-plane me-2"></i>Kirim Pesan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <div class="col-lg-5" data-aos="fade-up" data-aos-delay="200">
+          <div class="contact-info">
+            <div class="info-card">
+              <div class="info-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <h4 class="info-title">Alamat</h4>
+              <p class="info-content">
+                Jl. Soekarno Hatta No. 10<br>
+                Rajabasa, Bandar Lampung<br>
+                Lampung 35144
+              </p>
+            </div>
+            
+            <div class="info-card">
+              <div class="info-icon">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <h4 class="info-title">Telepon</h4>
+              <p class="info-content">
+                +628123456789<br>
+                +628987654321
+              </p>
+            </div>
+            
+            <div class="info-card">
+              <div class="info-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <h4 class="info-title">Email</h4>
+              <p class="info-content">
+                alumni@polinela.ac.id<br>
+                info@polinela.ac.id
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Map Section -->
+      <div class="map-container mt-5" data-aos="fade-up">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.5354380565637!2d105.23620267486745!3d-5.3251086953705!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40bb1cb2d1d3d3%3A0xed07113cc8e4ae1b!2sPoliteknik%20Negeri%20Lampung!5e0!3m2!1sid!2sid!4v1682486801544!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+      
+      <!-- FAQ Section -->
+      <div class="faq-section" data-aos="fade-up">
+        <h3 class="faq-title">Pertanyaan yang Sering Diajukan</h3>
+        
+        <div class="accordion" id="faqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Bagaimana cara bergabung dengan komunitas alumni?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Untuk bergabung dengan komunitas alumni, Anda perlu mendaftar akun pada platform ini dan melengkapi profil alumni Anda. Setelah diverifikasi oleh admin, Anda akan resmi menjadi bagian dari komunitas alumni Politeknik Negeri Lampung.
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Apa manfaat menjadi anggota komunitas alumni?
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Sebagai anggota komunitas alumni, Anda akan mendapatkan berbagai manfaat seperti akses ke jaringan profesional, informasi lowongan kerja, undangan event eksklusif, newsletter berkala, dan kesempatan untuk berkontribusi pada pengembangan almamater.
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Bagaimana cara mengupdate informasi profil saya?
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">
+                Anda dapat mengupdate informasi profil dengan login ke akun Anda, kemudian mengakses menu "Profil Saya" dan klik tombol "Edit Profil". Setelah mengubah informasi yang diperlukan, jangan lupa untuk menyimpan perubahan.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Simple JavaScript for emoji picker functionality -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const emojiButton = document.querySelector('.textarea-emoji');
+    const textarea = document.querySelector('textarea');
+    
+    if (emojiButton && textarea) {
+      emojiButton.addEventListener('click', function() {
+        const emojis = ['😊', '👍', '🎓', '💼', '🚀', '✨', '❤️', '👏', '🙏', '📚'];
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        textarea.value += ' ' + randomEmoji + ' ';
+        textarea.focus();
+      });
+    }
+  });
+</script>
+{% endblock %}

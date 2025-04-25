@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: #f6f5f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+      width: 400px;
+      max-width: 100%;
+      /* Increased min-height to ensure all content fits */
+      min-height: 580px;
+      position: relative;
+    }
+    
+    .form-container {
+      position: relative; /* Changed from absolute to relative for better content flow */
+      width: 100%;
+      height: 100%;
+      transition: all 0.6s ease-in-out;
+    }
+    
+    .login-container {
+      left: 0;
+      width: 100%;
+      z-index: 2;
+    }
+    
+    form {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 0 50px;
+      height: 100%;
+      text-align: center;
+    }
+    
+    h2 {
+      font-weight: bold;
+      margin: 0;
+      margin-bottom: 15px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 32px;
+    }
+    
+    p {
+      font-size: 14px;
+      font-weight: 100;
+      line-height: 20px;
+      letter-spacing: 0.5px;
+      margin: 20px 0 30px;
+    }
+    
+    input {
+      background-color: #eee;
+      border: none;
+      padding: 12px 15px;
+      margin: 8px 0;
+      width: 100%;
+      border-radius: 5px;
+    }
+    
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(255, 65, 108, 0.5);
+    }
+    
+    .form-group {
+      width: 100%;
+      margin-bottom: 15px; /* Increased margin */
+    }
+    
+    .form-group label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    button {
+      border-radius: 20px;
+      border: 1px solid #ff4b2b;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 12px 45px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 80ms ease-in;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    
+    button:active {
+      transform: scale(0.95);
+    }
+    
+    button:focus {
+      outline: none;
+    }
+    
+    .links {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding-bottom: 20px; /* Added padding at bottom */
+    }
+    
+    .links a {
+      color: #ff416c;
+      text-decoration: none;
+      font-size: 14px;
+      margin: 15px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .links a:hover {
+      color: #ff4b2b;
+      text-decoration: underline;
+    }
+    
+    .header-design {
+      height: 120px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      border-radius: 0 0 50% 50% / 30px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+    
+    .avatar {
+      width: 100px;
+      height: 100px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: -50px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .avatar i {
+      font-size: 50px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .errorlist {
+      color: #ff416c;
+      list-style: none;
+      text-align: left;
+      width: 100%;
+      font-size: 12px;
+    }
+    
+    /* Added responsive media query for smaller screens */
+    @media (max-height: 700px) {
+      .container {
+        min-height: auto;
+        height: auto;
+      }
+      
+      body {
+        padding: 20px 0;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="form-container login-container">
+      <div class="header-design">
+        <div class="avatar">
+          <i class="fas fa-user"></i>
+        </div>
+      </div>
+      
+      <form method="post" style="margin-top: 60px;">
+        <h2>Welcome Back</h2>
+        <p>Please enter your login details</p>
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+          <ul class="errorlist">
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        {% endfor %}
+        
+        <button type="submit">Login</button>
+        
+        <div class="links">
+          <a href="{% url 'register' %}">Create account</a>
+          <a href="/">Back to Home</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

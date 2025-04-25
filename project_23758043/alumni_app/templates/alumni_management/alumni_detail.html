@@ -1,0 +1,33 @@
+{% extends 'alumni_management/base.html' %}
+{% load static %}
+
+{% block title %}Detail Alumni{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white text-center"
+                     style="background: linear-gradient(45deg, #ff416c, #ff4b2b); border-top-left-radius: .5rem; border-top-right-radius: .5rem;">
+                    <h3 class="card-title mb-0">Detail Alumni</h3>
+                </div>
+                <div class="card-body px-4 py-4" style="font-family: 'Poppins', sans-serif;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>👤 Nama:</strong> {{ alumni.nama }}</li>
+                        <li class="list-group-item"><strong>📧 Email:</strong> {{ alumni.email }}</li>
+                        <li class="list-group-item"><strong>🎓 Tahun Lulus:</strong> {{ alumni.graduation_year }}</li>
+                        <li class="list-group-item"><strong>📚 Jurusan:</strong> {{ alumni.major }}</li>
+                        <li class="list-group-item"><strong>💼 Posisi:</strong> {{ alumni.job_position }}</li>
+                        <li class="list-group-item"><strong>🏢 Perusahaan:</strong> {{ alumni.company }}</li>
+                    </ul>
+                </div>
+                <div class="card-footer text-end bg-light">
+                    <a href="{% url 'alumni_list' %}" class="btn btn-glow">🔙 Kembali</a>
+                    <a href="{% url 'alumni_edit' alumni.id %}" class="btn btn-warning">✏️ Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

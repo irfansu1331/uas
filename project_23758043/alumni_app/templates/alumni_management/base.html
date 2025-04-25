@@ -1,0 +1,416 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Alumni Management{% endblock %}</title>
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'alumni_app/css/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #ff416c;
+            --secondary-color: #ff4b2b;
+            --dark-color: #2d3436;
+            --light-color: #f8f9fa;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            padding-top: 70px;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            transition: var(--transition);
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: #ffffff;
+        }
+
+        .navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #fff;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: var(--transition);
+        }
+
+        .navbar .nav-link:hover::after {
+            width: 70%;
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        /* Sidebar Styling */
+        .offcanvas {
+            border-right: none;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 767.98px) {
+            #sidebarOffcanvas.offcanvas-start {
+                width: 80vw !important;
+            }
+        }
+
+        .offcanvas-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .offcanvas-title {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-close {
+            background-color: white;
+            opacity: 0.8;
+        }
+
+        .offcanvas-body {
+            padding: 1.5rem 1rem;
+        }
+
+        .offcanvas-body .nav-link {
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            padding: 0.8rem 1rem;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+
+        .offcanvas-body .nav-link:hover {
+            background-color: rgba(255, 75, 43, 0.1);
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .offcanvas-body .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .offcanvas-body .text-danger, 
+        .offcanvas-body button.text-danger {
+            color: var(--primary-color) !important;
+        }
+
+        .offcanvas-body .text-danger:hover, 
+        .offcanvas-body button.text-danger:hover {
+            background-color: rgba(255, 65, 108, 0.1);
+            color: #d63384 !important;
+        }
+
+        /* Main Content Styling */
+        main {
+            min-height: calc(100vh - 70px - 80px);
+            padding: 2rem 0;
+            background-color: #f9f9f9;
+            width: 100%;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styling */
+        .footer-glow {
+            background: linear-gradient(135deg, rgba(255, 65, 108, 0.05), rgba(255, 75, 43, 0.05));
+            padding: 1.5rem 0;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 75, 43, 0.1);
+            position: relative;
+            width: 100%;
+        }
+
+        .footer-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+        }
+
+        /* Custom Button Styling */
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.3);
+            transition: var(--transition);
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 75, 43, 0.4);
+        }
+
+        .btn-outline-light {
+            border-radius: 30px;
+            padding: 0.4rem 1.2rem;
+        }
+
+        /* Utility Classes */
+        .section-title {
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 60px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .welcome-text {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .avatar-container {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+
+        /* User Welcome Section */
+        .user-welcome {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--box-shadow);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        /* Ensuring full width for all container elements */
+        .container-full {
+            width: 100%;
+            max-width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid"> <!-- Changed to container-fluid for full width -->
+        <!-- Sidebar Toggle Button -->
+        <button class="btn btn-outline-light me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+            <i class="bi bi-list"></i> <span class="d-none d-sm-inline">Menu</span>
+        </button>
+
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-mortarboard-fill me-2"></i>Alumni Portal
+        </a>
+
+        <!-- Navbar Links Toggler (for small screens) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavContent" aria-controls="navbarNavContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNavContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about/"><i class="bi bi-info-circle"></i> About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contacts/"><i class="bi bi-envelope"></i> Contacts</a></li>
+                
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> {{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'my_profile' %}"><i class="bi bi-person"></i> Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link btn btn-gradient ms-2" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- SIDEBAR (Offcanvas) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="sidebarOffcanvasLabel">
+            <i class="bi bi-grid-1x2"></i> Navigation
+        </h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        {% if user.is_authenticated %}
+        <div class="user-welcome">
+            {% if user.is_admin %}
+            <h5 class="welcome-text">Welcome, Admin!</h5>
+            <p class="mb-0"><small>Manage your system here</small></p>
+            {% else %}
+            <h5 class="welcome-text">Hello, {{ user.username }}!</h5>
+            <p class="mb-0"><small>Alumni Member</small></p>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        <ul class="nav flex-column">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <li class="nav-item"><a class="nav-link" href="/dashboard/"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/manage-users/"><i class="bi bi-people"></i> Manage Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'alumni_list' %}"><i class="bi bi-card-list"></i> Alumni Data</a></li>
+                {% elif user.groups.all.0.name == "Alumni" %}
+                    <li class="nav-item"><a class="nav-link" href="/profile/"><i class="bi bi-person"></i> My Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/jobs/"><i class="bi bi-briefcase"></i> Job Board</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/events/"><i class="bi bi-calendar-event"></i> Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/directory/"><i class="bi bi-journal-richtext"></i> Alumni Directory</a></li>
+                {% endif %}
+                
+                <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about/"><i class="bi bi-info-circle"></i> About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contacts/"><i class="bi bi-envelope"></i> Contact</a></li>
+                
+                <li class="nav-item mt-3">
+                    <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                      {% csrf_token %}
+                      <button type="submit" class="nav-link btn btn-link text-danger p-0 w-100 text-start">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                      </button>
+                    </form>
+                </li>
+                                            
+            {% else %}
+                <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-door"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about/"><i class="bi bi-info-circle"></i> About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contacts/"><i class="bi bi-envelope"></i> Contact</a></li>
+                <li class="nav-item mt-3"><a class="nav-link btn btn-gradient text-white" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a></li>
+                <li class="nav-item mt-2"><a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Register</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="container-fluid"> <!-- Changed to container-fluid for full width -->
+    <main>
+        {% block content %}
+        <div class="row justify-content-center">
+            <div class="col-12"> <!-- Changed to col-12 for full width -->
+                <div class="content-card">
+                    <h2 class="section-title">Welcome to Alumni Management System</h2>
+                    <p>This is the default content. Use the block content tag to replace this with your page-specific content.</p>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-glow mt-auto py-3">
+    <div class="container-fluid"> <!-- Changed to container-fluid for full width -->
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <span class="text-muted">© 2025 Alumni Management - Politeknik Negeri Lampung</span>
+            </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'alumni_app/js/script.js' %}"></script>
+</body>
+</html>
