@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Alumni Management - Politeknik Negeri Lampung</title>
+
+    <!-- Bootstrap & Custom CSS -->
+    <link href="{% static 'alumni_app/css/styles.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Alumni Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="/">🏠 Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about/">📖 About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contacts/">📞 Contacts</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Background Image -->
+    <section class="hero">
+        <div class="hero-overlay">
+            <h1 class="text-light animate-text">Selamat Datang di Alumni Management</h1>
+            <p class="lead text-light">Jaringan Alumni Prodi Teknologi Rekayasa Internet - Politeknik Negeri Lampung</p>
+            <a href="#join" class="btn-glow">Bergabung Sekarang</a>
+        </div>
+    </section>
+
+    <!-- Teks Berjalan -->
+    <marquee class="marquee">🔴 TRI SOLID SOLID SOLIDDDDDDDD!!!!!!!!!! 🔴</marquee>
+
+    <!-- Mengapa Bergabung -->
+    <div class="container my-5">
+        <h2 class="text-center text-primary" data-aos="fade-up">Mengapa Bergabung?</h2>
+        <div class="row">
+            <div class="col-md-3" data-aos="zoom-in">
+                <div class="card-glow">
+                    <h5>🎓 Alumni Berkualitas</h5>
+                    <p>Jaringan alumni yang sukses di berbagai bidang.</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="zoom-in">
+                <div class="card-glow">
+                    <h5>💼 Peluang Karier</h5>
+                    <p>Konektivitas tinggi dengan industri teknologi.</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="zoom-in">
+                <div class="card-glow">
+                    <h5>📅 Event Alumni</h5>
+                    <p>Reuni, seminar, dan pelatihan eksklusif.</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="zoom-in">
+                <div class="card-glow">
+                    <h5>🔍 Akses Informasi</h5>
+                    <p>Berita terbaru tentang industri dan teknologi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-glow">
+        <p>&copy; 2025 Alumni Management - Politeknik Negeri Lampung</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="{% static 'alumni_app/js/script.js' %}"></script>
+</body>
+</html>

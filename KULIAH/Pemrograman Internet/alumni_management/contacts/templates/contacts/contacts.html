@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kontak Kami - Alumni Management</title>
+
+    <link href="{% static 'alumni_app/css/styles.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">Alumni Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/">🏠 Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about/">📖 About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/contacts/">📞 Contacts</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero contact-hero">
+        <div class="hero-overlay">
+            <h1 class="text-light animate-text">Hubungi Kami</h1>
+            <p class="lead text-light">Jangan ragu untuk bertanya, kami siap membantu!</p>
+        </div>
+    </section>
+
+    <!-- Form Kontak -->
+    <div class="container my-5">
+        <h2 class="text-center text-primary" data-aos="fade-up">Kirim Pesan</h2>
+        <form data-aos="fade-up">
+            <div class="mb-3">
+                <label class="form-label">Nama Lengkap</label>
+                <input type="text" class="form-control" placeholder="Masukkan nama Anda">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="example@email.com">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Pesan</label>
+                <textarea class="form-control" rows="5" placeholder="Tulis pesan Anda..."></textarea>
+            </div>
+            <button type="submit" class="btn-glow">Kirim Pesan</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-glow">
+        <p>&copy; 2024 Alumni Management - Politeknik Negeri Lampung</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="{% static 'alumni_app/js/script.js' %}"></script>
+</body>
+</html>
